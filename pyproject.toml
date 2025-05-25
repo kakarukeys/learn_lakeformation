@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "learn-lakeformation"
+version = "0.1.0"
+description = "Learn AWS Lake Formation with Terraform, generative AI"
+authors = ["Wong Jiang Fung <kakarukeys@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+boto3 = "^1.37.34"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

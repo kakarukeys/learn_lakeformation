@@ -1,0 +1,6 @@
+.env
+passwords.txt
+.terraform*
+*.tfstate*
+plan.out
+main.tf
