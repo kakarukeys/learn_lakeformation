@@ -90,7 +90,7 @@ Assumptions
         * create an athena data source
         * grant S3 perms on the correct external buckets to the user
         * grant glue managed policy to the user
-    - can only control up to table level access
+    - glue without LF can only control up to table level access
     - glue db, table names must match s3 path fragments to make fine-grained permission grant easy
     - can't be managed by LF on account A
     ❌ does not work with Glue 5.0
@@ -114,6 +114,8 @@ Assumptions
         * associate tags to the glue db
         * grant LF perms to the user (for resource link access)
         * grant glue managed policy to the user
+
+(Note: Glue 4.0 does not support columnar tags, need Glue 5.0 FGAC)
 
 
 

@@ -320,3 +320,71 @@ resource "aws_glue_job" "example_etl" {
     "--datalake-formats" : "iceberg",
   }
 }
+
+# ----
+
+resource "aws_s3_object" "etl_g4_py" {
+  bucket = module.iova_glue_artifacts.s3_bucket_id
+
+  key          = "etl_g4.py"
+  source       = "./etl_g4.py"
+  content_type = "text/plain"
+  etag         = filemd5("./etl_g4.py")
+}
+
+resource "aws_glue_job" "example_etl_g4" {
+  name = "example_etl_g4"
+
+  glue_version      = "4.0"
+  worker_type       = "G.1X"
+  number_of_workers = 2
+
+  role_arn = module.glue_role.iam_role_arn
+
+  command {
+    script_location = "s3://${module.iova_glue_artifacts.s3_bucket_id}/etl_g4.py"
+    name            = "glueetl"
+    python_version  = "3"
+  }
+
+  default_arguments = {
+    "--enable-glue-datacatalog": "true" # no need if you enable FGAC
+    # for glue 5.0 working on Iceberg tables, see https://aws.amazon.com/blogs/big-data/enforce-fine-grained-access-control-on-data-lake-tables-using-aws-glue-5-0-integrated-with-aws-lake-formation/
+    # "--enable-lakeformation-fine-grained-access" : "true",
+    "--datalake-formats" : "iceberg",
+  }
+}
+
+# ----
+
+resource "aws_s3_object" "etl_g5_py" {
+  bucket = module.iova_glue_artifacts.s3_bucket_id
+
+  key          = "etl_g5.py"
+  source       = "./etl_g5.py"
+  content_type = "text/plain"
+  etag         = filemd5("./etl_g5.py")
+}
+
+resource "aws_glue_job" "example_etl_g5" {
+  name = "example_etl_g5"
+
+  glue_version      = "5.0"
+  worker_type       = "G.1X"
+  number_of_workers = 4
+
+  role_arn = module.glue_role.iam_role_arn
+
+  command {
+    script_location = "s3://${module.iova_glue_artifacts.s3_bucket_id}/etl_g5.py"
+    name            = "glueetl"
+    python_version  = "3"
+  }
+
+  default_arguments = {
+    # "--enable-glue-datacatalog": "true" # no need if you enable FGAC
+    # for glue 5.0 working on Iceberg tables, see https://aws.amazon.com/blogs/big-data/enforce-fine-grained-access-control-on-data-lake-tables-using-aws-glue-5-0-integrated-with-aws-lake-formation/
+    "--enable-lakeformation-fine-grained-access" : "true",
+    "--datalake-formats" : "iceberg",
+  }
+}
