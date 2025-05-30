@@ -344,7 +344,7 @@ resource "aws_lakeformation_permissions" "iova_sales_mngr_db_lf_perms" {
 
     expression {
       key    = aws_lakeformation_lf_tag.confidentiality.key
-      values = ["non-sensitive"]
+      values = ["non-sensitive", "sensitive"]
     }
 
     expression {
@@ -363,7 +363,7 @@ resource "aws_lakeformation_permissions" "iova_sales_mngr_tbl_lf_perms" {
 
     expression {
       key    = aws_lakeformation_lf_tag.confidentiality.key
-      values = ["non-sensitive"]
+      values = ["non-sensitive", "sensitive"]
     }
 
     expression {

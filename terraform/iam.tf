@@ -603,44 +603,6 @@ resource "aws_lakeformation_permissions" "iova_sales_mngr_tbl_lf_perms2" {
   }
 }
 
-resource "aws_lakeformation_permissions" "iova_sales_mngr_db_lf_perms3" {
-  principal   = module.iova_sales_mngr.iam_user_arn
-  permissions = ["DESCRIBE"]
-
-  lf_tag_policy {
-    resource_type = "DATABASE"
-
-    expression {
-      key    = aws_lakeformation_lf_tag.data_domain_hr.key
-      values = ["true"]
-    }
-
-    expression {
-      key    = aws_lakeformation_lf_tag.confidentiality.key
-      values = ["non-sensitive", "sensitive"]
-    }
-  }
-}
-
-resource "aws_lakeformation_permissions" "iova_sales_mngr_tbl_lf_perms3" {
-  principal   = module.iova_sales_mngr.iam_user_arn
-  permissions = ["DESCRIBE", "SELECT"]
-
-  lf_tag_policy {
-    resource_type = "TABLE"
-
-    expression {
-      key    = aws_lakeformation_lf_tag.data_domain_hr.key
-      values = ["true"]
-    }
-
-    expression {
-      key    = aws_lakeformation_lf_tag.confidentiality.key
-      values = ["non-sensitive", "sensitive"]
-    }
-  }
-}
-
 module "iova_tech_outsourcing_mngr" {
   # example role
   # can query data with Athena
