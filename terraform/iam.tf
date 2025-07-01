@@ -39,6 +39,24 @@ module "iova_tf_workload_identity" { # for Terraform
   ]
 }
 
+# to handle rare cases where user imports tables created by glue role into TF
+# data lake admins implicit perms do not include some perms such as DROP
+resource "aws_lakeformation_permissions" "iova_tf_workload_identity_tbl_lf_perms" {
+  principal = module.iova_tf_workload_identity.iam_user_arn
+
+  permissions                   = ["ALL"]
+  permissions_with_grant_option = ["ALL"]
+
+  lf_tag_policy {
+    resource_type = "TABLE"
+
+    expression {
+      key    = aws_lakeformation_lf_tag.access_all.key
+      values = ["true"]
+    }
+  }
+}
+
 module "iova_data_lake_admin" {
   # for testing only
   # although this role is made data lake administrator and has implicit LF perms, it cannot do anything without IAM permissions
