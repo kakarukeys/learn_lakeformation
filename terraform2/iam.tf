@@ -36,10 +36,27 @@ module "natasha_tf_workload_identity" { # for Terraform
 # to handle rare cases where user imports tables created by glue role into TF
 # data lake admins implicit perms do not include some perms such as DROP
 resource "aws_lakeformation_permissions" "natasha_tf_workload_identity_tbl_lf_perms" {
-  principal = module.iova_tf_workload_identity.iam_user_arn
+  principal = module.natasha_tf_workload_identity.iam_user_arn
 
-  permissions                   = ["ALL"]
-  permissions_with_grant_option = ["ALL"]
+  permissions = [
+    "ALL",
+    "ALTER",
+    "DELETE",
+    "DESCRIBE",
+    "DROP",
+    "INSERT",
+    "SELECT",
+  ]
+
+  permissions_with_grant_option = [
+    "ALL",
+    "ALTER",
+    "DELETE",
+    "DESCRIBE",
+    "DROP",
+    "INSERT",
+    "SELECT",
+  ]
 
   lf_tag_policy {
     resource_type = "TABLE"
